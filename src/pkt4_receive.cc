@@ -37,7 +37,7 @@ size_t find_magic_cookie(OptionBuffer& buf) {
 
 return (offset);
 }
-int buffer4_receive(CalloutHandle& handle) {
+int pkt4_receive(CalloutHandle& handle) {
     // A pointer to the packet is passed to the callout via a "boost" smart
     // pointer. The include file "pkt4.h" typedefs a pointer to the Pkt4
     // object as Pkt4Ptr.  Retrieve a pointer to the object.
@@ -48,8 +48,8 @@ int buffer4_receive(CalloutHandle& handle) {
 
     OptionBuffer buf;
     buf = query4_ptr->data_;
-	//This populates the packet object to make it easier to reference parts of the packet
-    query4_ptr->unpack();
+    cout << buf.size() << query4_ptr->toText() << "\n";
+    
     //If this is not a request packet, we can skip the rest.
     if (query4_ptr->getType() != 3){
     	return(0);
