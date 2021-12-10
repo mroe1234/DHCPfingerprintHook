@@ -1,0 +1,4 @@
+
+% LOG_CLIENT_FINGERPRINT client %1 requested options in the following order%2
+ This is an informational option to log the order options were requested in.
+ 
