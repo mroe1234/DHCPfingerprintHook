@@ -62,9 +62,11 @@ int pkt4_receive(CalloutHandle& handle) {
     while (offset < buf.size()) {
 
     	uint8_t opt_type = buf[offset++];
-    	// if (opt_type == 255) {
-//     		//last option
-//     	}
+    	if (opt_type == 255) {
+     		//last option
+     		option_list = option_list +" "+ to_string(opt_type);
+     		break;
+     	}
 //     	if (opt_type == 0) {
 //     		continue;
 //     	}
