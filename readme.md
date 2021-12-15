@@ -13,19 +13,26 @@ KEA_LIB ?= /usr/local/lib
 Once these paths are correct, just run ```make``` and it will create ```libfingerprint.so```.  Copy ```libfingerprint.so``` to the hooks directory (ex: ```/usr/local/lib/kea/hooks/```).
 
 ## Configuration for Kea
-The configuration for Kea is pretty simple as it does not take any parameters.
+The configuration for Kea is pretty simple as it does not take any parameters.  There is an optional parameter
+to set the style of option logging.  The choice is between "dec" (decimal), and "hex" (hexadecimal).  If
+no option is provided it will default to decimal.
+
 ```    
 "hooks-libraries": [
       {
-          "library": "/usr/local/lib/kea/hooks/libfingerprint.so"
+          "library": "/usr/local/lib/kea/hooks/libfingerprint.so",
+          "parameters": {
+              "opt_fmt": "hex"
+          }
       }
+
     ],
 ```
 
 Once configured Kea should start logging lines that look something like this:
 
 ```
-INFO  [kea-dhcp4.fingerprint/23626.140526963117056] LOG_CLIENT_FINGERPRINT client hwtype=1 00:50:56:bf:ba:d4 requested options in the following order 53 54 50 12 55 60 61 255
+INFO  [kea-dhcp4.fingerprint/27634.139948128566272] CLIENT_FINGERPRINT client=00:50:56:bf:ba:d4 requested options=36:32:0c:37:3c:3d
 ```
 ## Support
 Feedback and PRs are absolutely welcome.  Enjoy.
