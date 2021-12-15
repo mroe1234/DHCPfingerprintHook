@@ -1,15 +1,15 @@
-// File created from fingerprint_messages.mes
+// File created from src/fingerprint_messages.mes
 
 #include <cstddef>
 #include <log/message_types.h>
 #include <log/message_initializer.h>
 
-extern const isc::log::MessageID LOG_CLIENT_FINGERPRINT = "LOG_CLIENT_FINGERPRINT";
+extern const isc::log::MessageID CLIENT_FINGERPRINT = "CLIENT_FINGERPRINT";
 
 namespace {
 
 const char* values[] = {
-    "LOG_CLIENT_FINGERPRINT", "client %1 requested options in the following order%2",
+    "CLIENT_FINGERPRINT", "client=%1 requested options=%2",
     NULL
 };
 
