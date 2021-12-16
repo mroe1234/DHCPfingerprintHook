@@ -9,7 +9,7 @@ extern const isc::log::MessageID CLIENT_FINGERPRINT = "CLIENT_FINGERPRINT";
 namespace {
 
 const char* values[] = {
-    "CLIENT_FINGERPRINT", "client=%1 requested options=%2",
+    "CLIENT_FINGERPRINT", "client=%1 requested options=%2 with vid=%3 and reported hostname=%4",
     NULL
 };
 

@@ -83,6 +83,8 @@ int pkt4_receive(CalloutHandle& handle) {
     //option types, I don't care about some of the safeties.
     size_t offset = find_magic_cookie(buf);
 	string option_list;
+	string vendor_id;
+	string hostname;
     while (offset < buf.size()) {
 
     	uint8_t opt_type = buf[offset++];
@@ -94,13 +96,37 @@ int pkt4_receive(CalloutHandle& handle) {
      		break;
      	}
      	
-     	//option 53 is message type, not really an 'option' either.
-		if (opt_type == 53) {
-			//cout << "DHCP message type, not an option.\n";
-			offset = offset+opt_len;
-     		continue;
-     	}
-
+//      	//option 53 is message type, not really an 'option' either.
+// 		if (opt_type == 53) {
+// 			//cout << "DHCP message type, not an option.\n";
+// 			offset = offset+opt_len;
+//      		continue;
+//      	}
+		if (opt_type == 12) {
+			//save hostname
+			for (int i = offset; i < offset+opt_len; i++) {
+				hostname += buf[i];
+			}
+		}
+		if (opt_type == 60) {
+			//save vender_id
+			//vendor_id = std::string(buf[offset], buf[offset] + opt_len);
+			for (int i = offset; i < offset+opt_len; i++) {
+				vendor_id += buf[i];
+			}
+		}
+     	
+     	if (opt_type == 55) {
+			for (int i = offset; i < offset+opt_len; i++) {
+				int opt = int(buf[i]);
+				string option = to_string(opt);
+				if (option_format == "hex") {
+					option = int_to_hex(opt);
+				}
+				option_list = option_list +option+":";					
+			}
+		}
+			
      	if (opt_type == 0) {
      		//cout << "Skipping for option 0\n";
      		continue;
@@ -117,11 +143,15 @@ int pkt4_receive(CalloutHandle& handle) {
     	if (option_format == "hex") {
     		option = int_to_hex(int(opt_type));
     	}
-    	option_list = option_list +option+":";
+    	//option_list = option_list +option+":";
 	}
-	//associates the HW address with options requested for fingerprinting
+	//removes trailing : from string
 	option_list.pop_back();
-	LOG_INFO(fingerprint_logger, CLIENT_FINGERPRINT).arg(query4_ptr->getHWAddr()->toText(false)).arg(option_list);
+	LOG_INFO(fingerprint_logger, CLIENT_FINGERPRINT)
+		.arg(query4_ptr->getHWAddr()->toText(false))
+		.arg(option_list)
+		.arg(vendor_id)
+		.arg(hostname);
     return (0);
 };
 
