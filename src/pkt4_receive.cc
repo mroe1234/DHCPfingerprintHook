@@ -38,7 +38,9 @@ int unload() {
 
 string int_to_hex (int num) {
 	std::stringstream stream;
-	stream << std::setw(2) << std::setfill('0') << std::hex << num;
+	//removed the zero padding to comply with our existing fingerprinting infrastructure
+	//stream << std::setw(2) << std::setfill('0') << std::hex << num;
+	stream << std::hex << num;
 	return (stream.str());
 }
 //Scans the packet buffer for the magic cookie to know where the options start
