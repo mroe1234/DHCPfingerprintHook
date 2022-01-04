@@ -90,14 +90,15 @@ int pkt4_receive(CalloutHandle& handle) {
     while (offset < buf.size()) {
 
     	uint8_t opt_type = buf[offset++];
-    	uint8_t opt_len =  buf[offset++];
     	if (opt_type == 255) {
     		//cout << "last option\n";
      		//last option
      		//not really an 'option perse' so not adding it
      		break;
      	}
-     	
+		//can't assign a length to the option if the option is 255
+		// so we have to test first for 255 then assign the length
+    	uint8_t opt_len =  buf[offset++];     	
 //      	//option 53 is message type, not really an 'option' either.
 // 		if (opt_type == 53) {
 // 			//cout << "DHCP message type, not an option.\n";
